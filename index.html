@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#091426">
+  <title>GeoLab 9 — интерактивная лаборатория географии</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="#home"><span class="brand-mark">◎</span><span>GeoLab <b>9</b><small>ЛАБОРАТОРИЯ ГЕОГРАФИИ</small></span></a>
+    <div class="side-label">ОБУЧЕНИЕ</div>
+    <nav id="nav">
+      <a class="nav-link active" href="#home" data-page="home"><span>⌂</span> Обзор</a>
+      <a class="nav-link" href="#world" data-page="world"><span>◉</span> География мира</a>
+      <a class="nav-link" href="#kazakhstan" data-page="kazakhstan"><span>⌖</span> Казахстан</a>
+      <a class="nav-link" href="#climate" data-page="climate"><span>☼</span> Климатическая лаборатория</a>
+      <a class="nav-link" href="#population" data-page="population"><span>♙</span> Население</a>
+      <a class="nav-link" href="#economy" data-page="economy"><span>▥</span> Мировое хозяйство</a>
+      <a class="nav-link" href="#ecology" data-page="ecology"><span>♧</span> Экология</a>
+    </nav>
+    <div class="side-label">ПРАКТИКА</div>
+    <nav>
+      <a class="nav-link" href="#quiz" data-page="quiz"><span>✧</span> Викторина</a>
+      <a class="nav-link" href="#glossary" data-page="glossary"><span>▤</span> Словарь терминов</a>
+      <a class="nav-link" href="#atlas" data-page="atlas"><span>🌐</span> Интерактивный атлас</a>
+      <a class="nav-link" href="#countries" data-page="countries"><span>🏳</span> Страны мира</a>
+      <a class="nav-link" href="#earth-guide" data-page="earth-guide"><span>🌍</span> Материки и океаны</a>
+      <a class="nav-link" href="#mapquiz" data-page="mapquiz"><span>⌖</span> Испытание на карте</a>
+      <a class="nav-link" href="#coordinates" data-page="coordinates"><span>⌗</span> Координатный тренажёр</a>
+      <a class="nav-link" href="#calculators" data-page="calculators"><span>∑</span> Геокалькуляторы</a>
+      <a class="nav-link" href="#climatelab" data-page="climatelab"><span>☁</span> Конструктор климата</a>
+      <a class="nav-link" href="#ecogame" data-page="ecogame"><span>♻</span> Эко-симулятор</a>
+      <a class="nav-link" href="#missions" data-page="missions"><span>⚑</span> Миссии и достижения</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="mini-progress"><div class="mini-row"><span>Твой прогресс</span><b id="side-percent">0%</b></div><div class="progress-track"><i id="side-progress"></i></div><small id="side-xp">0 / 600 XP</small></div>
+      <div class="profile"><div class="avatar">G</div><div><b>Исследователь</b><small>Ученик 9 класса</small></div><span class="level" id="level">1 ур.</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb"><span>GeoLab 9</span><i>/</i><b id="crumb-current">Обзор</b></div>
+      <div class="top-actions"><span class="live-dot"></span><span>Учебный режим</span><button class="icon-btn" id="reset" title="Сбросить прогресс">↻</button></div>
+    </header>
+
+    <section class="page active" id="page-home">
+      <div class="hero">
+        <div class="hero-copy"><div class="eyebrow"><span class="spark">✦</span> ЦИФРОВАЯ ГЕОГРАФИЯ</div>
+          <h1>Исследуй мир.<br><em>Понимай планету.</em></h1>
+          <p>Твоя интерактивная лаборатория географии за 9 класс. Изучай процессы, анализируй данные и проверяй знания на практике.</p>
+          <a class="primary-btn" href="#world" data-page="world">Начать исследование <span>↗</span></a>
+        </div>
+        <div class="globe-wrap"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="globe"><div class="globe-grid"></div><div class="continent c1"></div><div class="continent c2"></div><div class="continent c3"></div><div class="globe-glow"></div></div><div class="globe-tag tag-one">🌐 195 стран</div><div class="globe-tag tag-two">📍 7 материков</div></div>
+        <div class="hero-foot"><span>01 / ПЛАНЕТА ЗЕМЛЯ</span><span>ОБУЧЕНИЕ ЧЕРЕЗ ИССЛЕДОВАНИЕ</span></div>
+      </div>
+      <div class="welcome-row"><div><div class="eyebrow">ТВОЯ ПАНЕЛЬ</div><h2>Добро пожаловать в GeoLab</h2><p class="muted">Продолжай обучение и открывай новые географические закономерности.</p></div><div class="date-chip">9 КЛАСС <span>•</span> ГЕОГРАФИЯ</div></div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon cyan">✧</div><span>Набрано опыта</span><strong id="xp-total">0 <small>XP</small></strong><div class="stat-note">За выполненные задания</div></div>
+        <div class="stat-card"><div class="stat-icon violet">▣</div><span>Уроки изучены</span><strong id="lessons-total">0 <small>/ 6</small></strong><div class="stat-note">Тематические лаборатории</div></div>
+        <div class="stat-card"><div class="stat-icon amber">♜</div><span>Точность тестов</span><strong id="accuracy">—</strong><div class="stat-note">По завершённым вопросам</div></div>
+        <div class="stat-card"><div class="stat-icon green">⌁</div><span>Текущий уровень</span><strong id="level-home">1</strong><div class="stat-note">Повышай уровень за XP</div></div>
+      </div>
+      <div class="section-heading"><div><div class="eyebrow">МАРШРУТ ОБУЧЕНИЯ</div><h2>Тематические лаборатории</h2></div><span class="muted small">6 направлений</span></div>
+      <div class="lab-grid">
+        <a class="lab-card" href="#world" data-page="world"><div class="lab-top"><span class="lab-number">01</span><span class="lab-symbol">◉</span></div><h3>География мира</h3><p>Материки, океаны и географическая оболочка.</p><span class="card-link">Открыть лабораторию ↗</span></a>
+        <a class="lab-card" href="#kazakhstan" data-page="kazakhstan"><div class="lab-top"><span class="lab-number">02</span><span class="lab-symbol">⌖</span></div><h3>География Казахстана</h3><p>Природа, ресурсы, население и регионы страны.</p><span class="card-link">Открыть лабораторию ↗</span></a>
+        <a class="lab-card" href="#climate" data-page="climate"><div class="lab-top"><span class="lab-number">03</span><span class="lab-symbol">☼</span></div><h3>Климат</h3><p>Температура, осадки и климатические диаграммы.</p><span class="card-link">Открыть лабораторию ↗</span></a>
+        <a class="lab-card" href="#population" data-page="population"><div class="lab-top"><span class="lab-number">04</span><span class="lab-symbol">♙</span></div><h3>Население</h3><p>Демография, миграции и урбанизация.</p><span class="card-link">Открыть лабораторию ↗</span></a>
+        <a class="lab-card" href="#economy" data-page="economy"><div class="lab-top"><span class="lab-number">05</span><span class="lab-symbol">▥</span></div><h3>Мировое хозяйство</h3><p>Отрасли экономики, транспорт и торговля.</p><span class="card-link">Открыть лабораторию ↗</span></a>
+        <a class="lab-card" href="#ecology" data-page="ecology"><div class="lab-top"><span class="lab-number">06</span><span class="lab-symbol">♧</span></div><h3>Экология</h3><p>Экологические вызовы и устойчивое развитие.</p><span class="card-link">Открыть лабораторию ↗</span></a>
+      </div>
+      <div class="bottom-grid"><div class="panel"><div class="panel-title"><div><div class="eyebrow">СЛЕДУЮЩИЙ ШАГ</div><h3>Проверь свои знания</h3></div><span class="pill">Практика</span></div><p class="muted">Ответь на вопросы по географии и получи опыт за правильные ответы.</p><a class="secondary-btn" href="#quiz" data-page="quiz">Перейти к викторине →</a></div><div class="panel quote-panel"><div class="quote-mark">“</div><p>География — это искусство видеть взаимосвязи между природой, человеком и пространством.</p><small>GEO LAB / МЫСЛИ ИССЛЕДОВАТЕЛЯ</small></div></div>
+      <div class="section-heading"><div><div class="eyebrow">НОВЫЕ ИССЛЕДОВАТЕЛЬСКИЕ ИНСТРУМЕНТЫ</div><h2>Атлас и справочники</h2></div></div>
+      <div class="resource-grid">
+        <a class="resource-card" href="#countries" data-page="countries"><span>🏳</span><div><b>Страны мира</b><small>Поиск и сравнение 250 стран и территорий с данными о площади, населении, столицах и соседях.</small></div><i>↗</i></a>
+        <a class="resource-card" href="#earth-guide" data-page="earth-guide"><span>🌎</span><div><b>Материки и океаны</b><small>Региональные справки, природные особенности и практикум с пошаговыми подсказками.</small></div><i>↗</i></a>
+        <a class="resource-card" href="#atlas" data-page="atlas"><span>🧭</span><div><b>Интерактивная карта</b><small>Открывай географические объекты и исследуй карту мира.</small></div><i>↗</i></a>
+      </div>
+    </section>
+
+    <section class="page" id="page-world">
+      <div class="page-head"><div class="eyebrow">ЛАБОРАТОРИЯ 01</div><h1>Географическая картина мира</h1><p>Изучи устройство планеты, географическую оболочку и основные природные закономерности.</p></div>
+      <div class="content-grid"><article class="panel wide"><div class="panel-title"><h2>Планета Земля</h2><span class="pill">Базовая теория</span></div><p>Земля — третья планета Солнечной системы. Её географическая оболочка объединяет нижнюю часть атмосферы, верхнюю часть литосферы, гидросферу и биосферу. Между ними постоянно происходит обмен веществом и энергией.</p><div class="four-spheres"><div><b>ATM</b><strong>Атмосфера</strong><small>Воздушная оболочка</small></div><div><b>HYD</b><strong>Гидросфера</strong><small>Водная оболочка</small></div><div><b>LIT</b><strong>Литосфера</strong><small>Твёрдая оболочка</small></div><div><b>BIO</b><strong>Биосфера</strong><small>Область жизни</small></div></div><h3>Главные географические закономерности</h3><ul class="clean-list"><li><b>Широтная зональность</b> — закономерная смена природных условий от экватора к полюсам.</li><li><b>Высотная поясность</b> — смена природных комплексов с высотой в горах.</li><li><b>Целостность оболочки</b> — изменение одного компонента влияет на другие.</li></ul></article><aside class="panel fact-panel"><div class="eyebrow">ЗАПОМНИ</div><div class="big-fact">71<span>%</span></div><p>поверхности Земли покрыто водами Мирового океана (приблизительно).</p><div class="fact-divider"></div><b>5 океанов</b><small>Тихий, Атлантический, Индийский, Южный и Северный Ледовитый.</small></aside></div>
+      <div class="panel"><div class="panel-title"><h2>Мини-задание</h2><span class="pill">+20 XP</span></div><p>Какая оболочка Земли включает все воды планеты?</p><div class="choice-list" data-question="sphere"><button data-answer="Атмосфера">Атмосфера</button><button data-answer="Гидросфера">Гидросфера</button><button data-answer="Литосфера">Литосфера</button></div><div class="feedback" id="sphere-feedback"></div></div>
+    </section>
+
+    <section class="page" id="page-kazakhstan">
+      <div class="page-head"><div class="eyebrow">ЛАБОРАТОРИЯ 02</div><h1>География Казахстана</h1><p>Природные условия, ресурсы, население и хозяйство Республики Казахстан.</p></div>
+      <div class="content-grid"><article class="panel wide"><div class="panel-title"><h2>Казахстан: территория и положение</h2><span class="pill">Страноведение</span></div><p>Казахстан расположен в центре Евразии. Это крупнейшее государство мира, не имеющее выхода к Мировому океану. Территория страны простирается от Прикаспийской низменности на западе до Алтайских гор на востоке.</p><div class="kaz-stats"><div><strong>2,7 млн</strong><small>км² — площадь, примерно</small></div><div><strong>5</strong><small>государств-соседей</small></div><div><strong>17</strong><small>областей в административном делении на 2022 г.</small></div></div><h3>Крупные природные районы</h3><div class="region-list"><div><span class="region-dot"></span><div><b>Западный Казахстан</b><small>Прикаспийская низменность, Мангистауские горы, нефтегазовые ресурсы.</small></div></div><div><span class="region-dot"></span><div><b>Северный Казахстан</b><small>Равнины, степи, важный район зернового хозяйства.</small></div></div><div><span class="region-dot"></span><div><b>Центральный Казахстан</b><small>Сарыарка, месторождения угля и металлических руд.</small></div></div><div><span class="region-dot"></span><div><b>Восточный Казахстан</b><small>Алтай, горные ландшафты, цветная металлургия.</small></div></div><div><span class="region-dot"></span><div><b>Южный Казахстан</b><small>Тянь-Шань, орошаемое земледелие, более тёплый климат.</small></div></div></div></article><aside class="panel fact-panel"><div class="eyebrow">ГЕОГРАФИЧЕСКИЙ ФАКТ</div><div class="big-fact">9<span>-е</span></div><p>место в мире по площади территории занимает Казахстан.</p><div class="fact-divider"></div><b>Соседи страны</b><small>Россия, Китай, Кыргызстан, Узбекистан и Туркменистан.</small></aside></div>
+      <div class="panel"><div class="panel-title"><h2>Проверь себя</h2><span class="pill">+20 XP</span></div><p>С каким государством Казахстан имеет самую протяжённую сухопутную границу?</p><div class="choice-list" data-question="border"><button data-answer="Китай">Китай</button><button data-answer="Россия">Россия</button><button data-answer="Узбекистан">Узбекистан</button></div><div class="feedback" id="border-feedback"></div></div>
+    </section>
+
+    <section class="page" id="page-climate">
+      <div class="page-head"><div class="eyebrow">ЛАБОРАТОРИЯ 03</div><h1>Климатическая лаборатория</h1><p>Исследуй годовой ход температуры и осадков, сравнивай климатические характеристики.</p></div>
+      <div class="content-grid"><div class="panel wide"><div class="panel-title"><h2>Климатограмма: сравнение городов</h2><span class="pill">Интерактивный график</span></div><div class="select-row"><label for="city-select">Выбери город</label><select id="city-select"><option value="astana">Астана</option><option value="almaty">Алматы</option><option value="aktau">Актау</option></select></div><div class="chart-legend"><span><i class="legend-temp"></i> Температура, °C</span><span><i class="legend-rain"></i> Осадки, мм</span></div><div class="climate-chart" id="climate-chart"></div><div class="chart-months" id="chart-months"></div><div class="chart-summary" id="climate-summary"></div></div><aside class="panel"><div class="eyebrow">КАК ЧИТАТЬ</div><h3>Климатограмма</h3><p class="muted">Климатограмма показывает средние месячные температуры и количество осадков.</p><div class="key-row"><span class="key-box temp-key"></span><div><b>Линия</b><small>Средняя температура воздуха.</small></div></div><div class="key-row"><span class="key-box rain-key"></span><div><b>Столбцы</b><small>Месячная сумма осадков.</small></div></div><div class="note">Данные в тренажёре учебные и округлённые. Они предназначены для освоения анализа климатограмм, а не для метеорологических прогнозов.</div></aside></div>
+      <div class="panel"><div class="panel-title"><h2>Практика: климат</h2><span class="pill">+30 XP</span></div><p id="climate-question">В каком городе годовая амплитуда температуры обычно выше?</p><div class="choice-list" data-question="climate"><button data-answer="Астана">Астана</button><button data-answer="Алматы">Алматы</button><button data-answer="Актау">Актау</button></div><div class="feedback" id="climate-feedback"></div></div>
+    </section>
+
+    <section class="page" id="page-population">
+      <div class="page-head"><div class="eyebrow">ЛАБОРАТОРИЯ 04</div><h1>Население и демография</h1><p>Изучай численность населения, естественное движение и миграционные процессы.</p></div>
+      <div class="content-grid"><div class="panel wide"><div class="panel-title"><h2>Демографический симулятор</h2><span class="pill">Измени параметры</span></div><p class="muted">Посмотри, как рождаемость, смертность и миграция влияют на условную численность населения.</p><div class="sim-controls"><label>Рождаемость <output id="birth-out">18‰</output><input id="birth" type="range" min="5" max="35" value="18"></label><label>Смертность <output id="death-out">8‰</output><input id="death" type="range" min="2" max="25" value="8"></label><label>Миграционный прирост <output id="migration-out">+2‰</output><input id="migration" type="range" min="-15" max="15" value="2"></label></div><div class="demo-result"><div><small>Естественный прирост</small><strong id="natural">+10‰</strong></div><div><small>Общий прирост</small><strong id="total-growth">+12‰</strong></div><div><small>Изменение за год</small><strong id="change">+1,2%</strong></div></div><div class="note">‰ (промилле) — число на 1000 жителей. Симулятор использует условную модель: общий прирост = рождаемость − смертность + миграционный прирост.</div></div><aside class="panel"><div class="eyebrow">ТЕРМИН</div><h3>Урбанизация</h3><p>Рост доли городского населения, увеличение роли городов в жизни общества и распространение городского образа жизни.</p><div class="fact-divider"></div><h3>Миграция</h3><p>Перемещение людей с изменением места жительства на определённый срок или постоянно.</p></aside></div>
+      <div class="panel"><div class="panel-title"><h2>Мини-задание</h2><span class="pill">+20 XP</span></div><p>Как называется разность между рождаемостью и смертностью?</p><div class="choice-list" data-question="demo"><button data-answer="Механический прирост">Механический прирост</button><button data-answer="Естественный прирост">Естественный прирост</button><button data-answer="Урбанизация">Урбанизация</button></div><div class="feedback" id="demo-feedback"></div></div>
+    </section>
+
+    <section class="page" id="page-economy">
+      <div class="page-head"><div class="eyebrow">ЛАБОРАТОРИЯ 05</div><h1>Мировое хозяйство</h1><p>Рассмотри, как страны производят товары, используют ресурсы и взаимодействуют друг с другом.</p></div>
+      <div class="panel"><div class="panel-title"><h2>Три сектора экономики</h2><span class="pill">Структура хозяйства</span></div><div class="sector-grid"><div class="sector-card"><span class="sector-icon">⛏</span><b>Первичный сектор</b><p>Получение ресурсов из природы.</p><small>Сельское хозяйство, рыболовство, добыча полезных ископаемых.</small></div><div class="sector-card"><span class="sector-icon">⚙</span><b>Вторичный сектор</b><p>Переработка сырья и производство.</p><small>Промышленность, строительство, энергетика.</small></div><div class="sector-card"><span class="sector-icon">⇄</span><b>Третичный сектор</b><p>Услуги населению и бизнесу.</p><small>Торговля, транспорт, образование, медицина, туризм.</small></div></div></div>
+      <div class="panel"><div class="panel-title"><h2>Интерактивная классификация</h2><span class="pill">Перетащи не нужно — просто выбери</span></div><p>К какому сектору относится деятельность? Выбери сектор в каждом примере.</p><div class="classify-list" id="classify-list"></div><div class="feedback" id="economy-feedback"></div><button class="secondary-btn" id="check-economy">Проверить ответы</button></div>
+    </section>
+
+    <section class="page" id="page-ecology">
+      <div class="page-head"><div class="eyebrow">ЛАБОРАТОРИЯ 06</div><h1>Экологическая лаборатория</h1><p>Разбирай причины экологических проблем и оценивай пути устойчивого развития.</p></div>
+      <div class="content-grid"><article class="panel wide"><div class="panel-title"><h2>Экологические вызовы</h2><span class="pill">Человек и природа</span></div><div class="eco-list"><div><span>01</span><div><b>Изменение климата</b><p>Рост концентрации парниковых газов усиливает удержание тепла в атмосфере и влияет на климатическую систему.</p></div></div><div><span>02</span><div><b>Дефицит пресной воды</b><p>Неравномерное распределение водных ресурсов, загрязнение и чрезмерное водопотребление создают риски для людей и экосистем.</p></div></div><div><span>03</span><div><b>Опустынивание</b><p>Деградация земель в засушливых районах может усиливаться из-за нерационального землепользования и климатических факторов.</p></div></div><div><span>04</span><div><b>Загрязнение воздуха</b><p>Выбросы транспорта, энергетики и промышленности ухудшают качество воздуха и влияют на здоровье.</p></div></div></div></article><aside class="panel"><div class="eyebrow">КАЗАХСТАН</div><h3>Экологические примеры</h3><p><b>Аральское море</b><br><span class="muted">Сокращение площади моря связано прежде всего с масштабным отводом речных вод на орошение.</span></p><div class="fact-divider"></div><p><b>Семипалатинский испытательный полигон</b><br><span class="muted">Территория, пострадавшая от ядерных испытаний в XX веке.</span></p><div class="fact-divider"></div><p><b>Каспийское море</b><br><span class="muted">Экологические риски связаны с загрязнением, колебаниями уровня и состоянием экосистем.</span></p></aside></div>
+      <div class="panel"><div class="panel-title"><h2>Экологическое решение</h2><span class="pill">+20 XP</span></div><p>Какое действие лучше всего соответствует принципам устойчивого развития?</p><div class="choice-list" data-question="eco"><button data-answer="Максимально быстро использовать невозобновимые ресурсы">Максимально быстро использовать невозобновимые ресурсы</button><button data-answer="Сокращать отходы, экономить ресурсы и развивать чистую энергетику">Сокращать отходы, экономить ресурсы и развивать чистую энергетику</button><button data-answer="Игнорировать воздействие производства на природу">Игнорировать воздействие производства на природу</button></div><div class="feedback" id="eco-feedback"></div></div>
+    </section>
+
+    <section class="page" id="page-quiz">
+      <div class="page-head"><div class="eyebrow">ЦЕНТР ЗНАНИЙ</div><h1>Географическая викторина</h1><p>Ответь на вопросы по разным темам курса. За каждый правильный ответ начисляется опыт.</p></div>
+      <div class="quiz-layout"><div class="panel quiz-panel"><div class="quiz-meta"><span id="quiz-counter">ВОПРОС 1 / 8</span><span class="pill" id="quiz-score">0 правильных</span></div><div class="quiz-progress"><i id="quiz-progress"></i></div><div class="quiz-topic" id="quiz-topic">ГЕОГРАФИЯ МИРА</div><h2 id="quiz-question">Загрузка вопроса...</h2><div class="quiz-options" id="quiz-options"></div><div class="quiz-bottom"><span class="muted" id="quiz-hint">Выбери один вариант ответа</span><button class="primary-btn" id="quiz-next" disabled>Далее →</button></div><div class="feedback" id="quiz-feedback"></div></div><div class="panel quiz-side"><div class="eyebrow">ТВОЯ ЦЕЛЬ</div><div class="target-icon">✧</div><h3>Стань геоэкспертом</h3><p class="muted">Пройди все вопросы, чтобы закрепить основные понятия и получить XP.</p><div class="quiz-reward"><b>+80 XP</b><small>за полный тест</small></div><button class="secondary-btn" id="restart-quiz">Начать заново</button></div></div>
+    </section>
+
+    <section class="page" id="page-glossary">
+      <div class="page-head"><div class="eyebrow">СПРАВОЧНЫЙ ЦЕНТР</div><h1>Словарь географа</h1><p>Ключевые понятия курса — коротко и понятно.</p></div>
+      <div class="panel"><div class="search-wrap"><span>⌕</span><input id="glossary-search" type="search" placeholder="Найти термин..."></div><div class="glossary-list" id="glossary-list"></div></div>
+    </section>
+
+    <section class="page" id="page-atlas">
+      <div class="page-head"><div class="eyebrow">ИНТЕРАКТИВНЫЙ АТЛАС / 01</div><h1>Исследуй материки</h1><p>Нажимай на точки и регионы, открывай карточки объектов и проверяй себя по географическим фактам.</p></div>
+      <div class="atlas-layout">
+        <div class="panel atlas-panel">
+          <div class="panel-title"><h2>Карта мира</h2><span class="pill">Leaflet · OSM</span></div>
+          <div class="atlas-toolbar">
+            <input id="atlas-country-search" type="search" placeholder="Поиск страны или объекта...">
+            <button class="secondary-btn" id="atlas-search-btn">Поиск</button>
+          </div>
+          <div id="world-map" aria-label="Интерактивная карта мира"></div>
+          <div class="map-legend"><span><i></i> Карта мира с подложкой OpenStreetMap</span><span>Кликните по маркеру, чтобы открыть информацию</span></div>
+        </div>
+        <div class="panel atlas-info" id="atlas-info"><div class="eyebrow">КАРТОЧКА ОБЪЕКТА</div><div class="atlas-big">🌍</div><h2>Выбери материк</h2><p class="muted">Нажми на любую метку на карте, чтобы узнать площадь, особенности природы и интересные факты.</p></div>
+      </div>
+      <div class="panel"><div class="panel-title"><h2>Быстрый поиск объекта</h2><span class="pill">Атлас-справочник</span></div><div class="atlas-search"><input id="object-search" placeholder="Например: Нил, Эверест, Байкал..."><button class="primary-btn" id="object-find">Найти объект ↗</button></div><div id="object-result" class="feedback"></div></div>
+    </section>
+
+    <section class="page" id="page-countries">
+      <div class="page-head"><div class="eyebrow">АТЛАС-СПРАВОЧНИК / 02</div><h1>Страны и территории мира</h1><p>Ищи страны, сравнивай площадь и население, изучай столицы, языки, валюты и соседей. Численность населения приведена за 2023 год, где доступны данные.</p></div>
+      <div class="country-toolbar panel">
+        <label class="country-search">Поиск по названию, столице или коду<input id="country-search" type="search" placeholder="Например, Казахстан, Астана, KAZ"></label>
+        <label>Часть света<select id="country-region"><option value="">Все части света</option></select></label>
+        <label>Сортировка<select id="country-sort"><option value="name">По названию</option><option value="area">По площади</option><option value="population">По населению</option></select></label>
+        <label class="country-member"><input id="country-members" type="checkbox"> Только члены ООН</label>
+      </div>
+      <div class="country-summary"><span id="country-count">Загружаем справочник…</span><span class="muted">Выбери карточку, чтобы открыть подробности</span></div>
+      <div class="country-layout">
+        <div class="country-grid" id="country-grid" aria-live="polite"></div>
+        <aside class="panel country-detail" id="country-detail"><div class="eyebrow">СПРАВКА О СТРАНЕ</div><div class="country-flag">🌐</div><h2>Выбери страну</h2><p class="muted">Карточка покажет основные сведения и географические связи выбранного государства.</p></aside>
+      </div>
+      <p class="data-note">База содержит 250 стран и территорий из mledoze/countries (ODbL 1.0; текст лицензии — COUNTRIES-LICENSE.txt). Население — показатель Всемирного банка SP.POP.TOTL за 2023 год; для 35 записей наблюдение отсутствует. Площади и другие справочные поля требуют сверки с актуальными официальными источниками.</p>
+    </section>
+
+    <section class="page" id="page-earth-guide">
+      <div class="page-head"><div class="eyebrow">ГЕОГРАФИЧЕСКАЯ ЭНЦИКЛОПЕДИЯ / 03</div><h1>Материки, островной мир и океаны</h1><p>Сопоставляй крупные регионы планеты: от положения и рельефа до климата, вод и природных вызовов.</p></div>
+      <div class="guide-switch" role="tablist" aria-label="Раздел справочника"><button class="guide-tab active" data-guide="continents" role="tab" aria-selected="true">Материки и регионы</button><button class="guide-tab" data-guide="oceans" role="tab" aria-selected="false">Океаны</button></div>
+      <div class="guide-layout">
+        <div class="guide-list panel" id="guide-list" role="list"></div>
+        <article class="panel guide-detail" id="guide-detail" aria-live="polite"></article>
+      </div>
+      <div class="panel practical-panel">
+        <div class="eyebrow">ПРАКТИЧЕСКАЯ РАБОТА</div><h2>Сравни географические регионы</h2>
+        <p>Выбери два региона и сопоставь площадь. Сначала сформулируй вывод самостоятельно, затем открой подсказку с ходом решения.</p>
+        <div class="compare-controls"><label>Регион A<select id="compare-a"></select></label><label>Регион B<select id="compare-b"></select></label></div>
+        <div class="compare-result" id="compare-result"></div>
+        <button class="secondary-btn" id="compare-explain">Показать ход решения</button><div class="feedback" id="compare-explanation" hidden></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-mapquiz">
+      <div class="page-head"><div class="eyebrow">ГЕОГРАФИЧЕСКОЕ ИСПЫТАНИЕ / 02</div><h1>Экспедиция по карте</h1><p>Определи, где находится объект. Каждый раунд — новое задание и новые очки опыта.</p></div>
+      <div class="mission-banner"><div><div class="eyebrow">ТВОЯ ЭКСПЕДИЦИЯ</div><h2 id="map-task">Найди самый большой океан</h2><p id="map-subtask">Выбери правильный вариант на схеме ниже.</p></div><div class="mission-counter"><b id="map-round">01</b><small>РАУНД</small></div></div>
+      <div class="panel"><div class="map-choice-grid" id="map-choices"></div><div class="map-result" id="map-result">Выбери ответ, чтобы продолжить экспедицию.</div><button class="primary-btn" id="map-next" disabled>Следующее задание →</button></div>
+      <div class="panel"><div class="panel-title"><h2>Результат экспедиции</h2><span class="pill">Текущая серия</span></div><div class="demo-result"><div><small>Правильных ответов</small><strong id="map-correct">0</strong></div><div><small>Всего заданий</small><strong id="map-total">0</strong></div><div><small>Точность</small><strong id="map-accuracy">0%</strong></div></div></div>
+    </section>
+
+    <section class="page" id="page-coordinates">
+      <div class="page-head"><div class="eyebrow">НАВИГАЦИОННЫЙ ЦЕНТР / 03</div><h1>Координатный тренажёр</h1><p>Учись определять географические координаты, различать широту и долготу и находить точки на глобусе.</p></div>
+      <div class="content-grid"><div class="panel wide"><div class="panel-title"><h2>Определи координаты</h2><span class="pill">Практика</span></div><div class="coordinate-target"><div class="coord-cross">＋</div><div><small>НАЙДИ ТОЧКУ</small><strong id="coord-place">Каир</strong><p id="coord-hint">Определи примерные координаты города.</p></div></div><div class="coord-inputs"><label>Широта (°)<input id="lat-input" type="number" min="-90" max="90" placeholder="Например, 30"></label><label>Долгота (°)<input id="lon-input" type="number" min="-180" max="180" placeholder="Например, 31"></label></div><div class="coord-actions"><button class="primary-btn" id="coord-check">Проверить координаты</button><button class="secondary-btn" id="coord-new">Другой город</button></div><div id="coord-feedback" class="feedback"></div></div><aside class="panel"><div class="eyebrow">ШПАРГАЛКА</div><h3>Как читать координаты?</h3><p><b>Широта</b> показывает расстояние точки к северу или югу от экватора.</p><p><b>Долгота</b> показывает расстояние к востоку или западу от нулевого меридиана.</p><div class="fact-divider"></div><div class="coord-mini"><span>С. ш.</span><span>Севернее экватора</span></div><div class="coord-mini"><span>Ю. ш.</span><span>Южнее экватора</span></div><div class="coord-mini"><span>В. д.</span><span>Восточнее Гринвича</span></div><div class="coord-mini"><span>З. д.</span><span>Западнее Гринвича</span></div></aside></div>
+      <div class="panel"><div class="panel-title"><h2>Угадай полушарие</h2><span class="pill">Молниеносный раунд</span></div><p id="hemisphere-question">Точка имеет координаты 40° с. ш. и 70° в. д. В каких полушариях она находится?</p><div class="choice-list" id="hemisphere-options"><button>Северном и Восточном</button><button>Южном и Западном</button><button>Северном и Западном</button></div><div class="feedback" id="hemisphere-feedback"></div></div>
+    </section>
+
+    <section class="page" id="page-calculators">
+      <div class="page-head"><div class="eyebrow">ИНСТРУМЕНТАРИЙ ГЕОГРАФА / 04</div><h1>Географические калькуляторы</h1><p>Решай типовые задачи по масштабу карты, расстоянию, плотности населения и часовым поясам.</p></div>
+      <div class="calculator-grid">
+        <div class="panel calculator"><div class="calc-icon">↔</div><h2>Масштаб карты</h2><p>Переведи расстояние на карте в реальное расстояние.</p><label>Расстояние на карте (см)<input id="map-cm" type="number" value="4" min="0" step="0.1"></label><label>Масштаб (например, 100000)<input id="map-scale" type="number" value="100000" min="1"></label><div class="calc-output" id="scale-output">На местности: 4 км</div></div>
+        <div class="panel calculator"><div class="calc-icon">♙</div><h2>Плотность населения</h2><p>Рассчитай среднее число жителей на 1 км².</p><label>Численность населения<input id="pop-number" type="number" value="1200000" min="0"></label><label>Площадь территории (км²)<input id="pop-area" type="number" value="60000" min="0"></label><div class="calc-output" id="density-output">Плотность: 20 чел./км²</div></div>
+        <div class="panel calculator"><div class="calc-icon">◷</div><h2>Часовые пояса</h2><p>Узнай местное время по разнице долгот (упрощённая модель).</p><label>Долгота пункта А (°)<input id="longitude-a" type="number" value="0" min="-180" max="180"></label><label>Долгота пункта Б (°)<input id="longitude-b" type="number" value="75" min="-180" max="180"></label><div class="calc-output" id="time-output">Разница: 5 часов</div></div>
+        <div class="panel calculator"><div class="calc-icon">△</div><h2>Температурная амплитуда</h2><p>Вычисли разницу между самой тёплой и холодной средней температурой.</p><label>Максимальная температура (°C)<input id="temp-max" type="number" value="25"></label><label>Минимальная температура (°C)<input id="temp-min" type="number" value="-18"></label><div class="calc-output" id="amplitude-output">Амплитуда: 43°C</div></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-climatelab">
+      <div class="page-head"><div class="eyebrow">КЛИМАТИЧЕСКИЙ КОНСТРУКТОР / 05</div><h1>Собери климатический профиль</h1><p>Измени температуру и осадки, а GeoLab определит тип климата в учебной модели.</p></div>
+      <div class="content-grid"><div class="panel wide"><div class="panel-title"><h2>Параметры климатической станции</h2><span class="pill">Живые данные</span></div><div class="climate-builder"><label>Средняя температура января <output id="jan-out">−15°C</output><input type="range" id="jan" min="-35" max="15" value="-15"></label><label>Средняя температура июля <output id="jul-out">+22°C</output><input type="range" id="jul" min="0" max="40" value="22"></label><label>Годовое количество осадков <output id="precip-out">350 мм</output><input type="range" id="precip" min="0" max="2000" step="10" value="350"></label><label>Сезон максимума осадков<select id="rain-season"><option value="summer">Летом</option><option value="winter">Зимой</option><option value="even">Равномерно</option></select></label></div><div class="climate-verdict" id="climate-verdict"><span>АНАЛИЗ СТАНЦИИ</span><h2>Умеренно-континентальный профиль</h2><p>Выраженная сезонность и умеренное количество осадков.</p></div></div><aside class="panel"><div class="eyebrow">АНАЛИЗИРУЙ</div><h3>На что смотреть?</h3><p>1. Чем больше разница между январём и июлем, тем выше годовая амплитуда температуры.</p><p>2. Малое количество осадков часто характерно для аридных территорий.</p><p>3. Распределение осадков по сезонам помогает понять влияние воздушных масс и муссонов.</p></aside></div>
+    </section>
+
+    <section class="page" id="page-ecogame">
+      <div class="page-head"><div class="eyebrow">СИМУЛЯТОР УСТОЙЧИВОГО РАЗВИТИЯ / 06</div><h1>Эко-город: твои решения</h1><p>Ты — глава городского совета. Выбирай решения и смотри, как меняются экология, бюджет и качество жизни.</p></div>
+      <div class="eco-dashboard"><div><small>ЭКОЛОГИЯ</small><strong id="eco-nature">55</strong><div class="meter"><i id="eco-nature-bar"></i></div></div><div><small>БЮДЖЕТ</small><strong id="eco-money">60</strong><div class="meter"><i id="eco-money-bar"></i></div></div><div><small>КАЧЕСТВО ЖИЗНИ</small><strong id="eco-life">55</strong><div class="meter"><i id="eco-life-bar"></i></div></div></div>
+      <div class="panel"><div class="panel-title"><h2 id="eco-round-title">Раунд 1: транспорт</h2><span class="pill" id="eco-round">1 / 5</span></div><p id="eco-scenario">В городе растут пробки и загрязнение воздуха. Какое решение ты примешь?</p><div class="eco-decisions" id="eco-decisions"></div><div class="feedback" id="eco-feedback"></div><button class="primary-btn" id="eco-next" disabled>Следующая ситуация →</button><button class="secondary-btn" id="eco-restart">Начать симуляцию заново</button></div>
+    </section>
+
+    <section class="page" id="page-missions">
+      <div class="page-head"><div class="eyebrow">ЦЕНТР ДОСТИЖЕНИЙ / 07</div><h1>Миссии исследователя</h1><p>Выполняй разные активности, набирай XP и открывай достижения.</p></div>
+      <div class="panel daily-panel"><div><div class="eyebrow">ИСПЫТАНИЕ ДНЯ</div><h2>Географическая разминка</h2><p>Ответь на три случайных вопроса из разных разделов географии.</p></div><div class="daily-icon">✦</div><button class="primary-btn" id="daily-start">Начать испытание ↗</button></div>
+      <div class="section-heading"><div><div class="eyebrow">ТВОИ НАГРАДЫ</div><h2>Коллекция достижений</h2></div><span class="muted small" id="achievement-count">0 / 8 открыто</span></div>
+      <div class="achievement-grid" id="achievement-grid"></div>
+      <div class="panel"><div class="panel-title"><h2>Статистика исследователя</h2><span class="pill">Локальный профиль</span></div><div class="demo-result"><div><small>Всего XP</small><strong id="mission-xp">0</strong></div><div><small>Изучено лабораторий</small><strong id="mission-lessons">0</strong></div><div><small>Точность ответов</small><strong id="mission-accuracy">0%</strong></div></div></div>
+    </section>
+    <footer><span>GEOLAB 9</span><span>УЧИСЬ • ИССЛЕДУЙ • ОТКРЫВАЙ</span><span>Учебный проект</span></footer>
+  </main>
+</div>
+<script src="countries-data.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="app.js"></script>
+<script src="advanced-atlas.js"></script>
+</body>
+</html>
